@@ -1,0 +1,14 @@
+{
+  "extends": "./.svelte-kit/tsconfig.json",
+  // see the original compilerOptions included in the official template in
+  // tsconfigs/tsconfig.app.json
+  "references": [
+    { "path": "./tsconfigs/tsconfig.app.json" },
+    { "path": "./tsconfigs/tsconfig.vitest.json" },
+    { "path": "./tsconfigs/tsconfig.node.json" }
+  ],
+  // ensure it a dummy config
+  "include": [],
+  "exclude": [],
+  "files": []
+}

@@ -1,0 +1,67 @@
+name: Node.js CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-24.04
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+
+    - name: Use Node.js 22.x
+      uses: actions/setup-node@v6
+      with:
+        node-version: 22.x
+        cache: pnpm
+
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: Run Svelte check
+      run: pnpm run check
+
+    - name: Run tsc check
+      run: pnpm run tsc
+
+    - name: Run Vitest
+      run: pnpm run test
+
+    - name: Build
+      run: NODE_ENV=production pnpm run build
+
+    - name : Drop a .nojekyll
+      run: touch build/.nojekyll
+
+    - name: Upload static files as artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: build/
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-24.04
+    # Only deploy from master
+    if: github.ref == 'refs/heads/master'
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

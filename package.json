@@ -1,0 +1,36 @@
+{
+  "name": "cgm",
+  "version": "0.0.1",
+  "description": "My take to make a text editor powered by CodeMirror.",
+  "author": "qbane",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync || echo ''",
+    "svelte-kit-sync": "svelte-kit sync && rm -rf node_modules/.tmp",
+    "tsc": "tsc -b",
+    "check": "pnpm run svelte-kit-sync && svelte-check --tsconfig ./tsconfigs/tsconfig.app.json",
+    "check:watch": "npm run svelte-kit-sync && svelte-check --tsconfig ./tsconfigs/tsconfig.app.json --watch",
+    "test:unit": "vitest",
+    "test": "pnpm run test:unit -- --run"
+  },
+  "devDependencies": {
+    "@sveltejs/kit": "~2.49.2",
+    "@sveltejs/vite-plugin-svelte": "~6.2.1",
+    "@types/node": "~22.19.3",
+    "svelte": "~5.46.0",
+    "svelte-check": "~4.3.4",
+    "typescript": "~5.9.3",
+    "vite": "~7.3.0",
+    "vitest": "~3.2.4"
+  },
+  "engines": {
+    "node": ">=20.0.0 <25.0.0"
+  },
+  "dependencies": {
+    "@sveltejs/adapter-static": "^3.0.10"
+  }
+}
