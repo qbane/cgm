@@ -31,6 +31,9 @@
     "node": ">=20.0.0 <25.0.0"
   },
   "dependencies": {
-    "@sveltejs/adapter-static": "^3.0.10"
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.39.4",
+    "@sveltejs/adapter-static": "^3.0.10",
+    "codemirror": "^6.0.2"
   }
 }
