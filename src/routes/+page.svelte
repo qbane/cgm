@@ -1,9 +1,10 @@
 <script>
   import { basicSetup } from 'codemirror'
-  import { EditorView } from '@codemirror/view'
+  import { EditorView, keymap, scrollPastEnd } from '@codemirror/view'
 
   import { baseTheme } from '$lib/codemirror/baseTheme'
   import { colorMode } from '$lib/codemirror/colorMode'
+  import { myIndentWithTab } from '$lib/codemirror/tabHandler'
 
   /** @type {EditorView} */
   let cmView
@@ -18,6 +19,8 @@
         colorMode(
           dom.ownerDocument.documentElement,
           (el) => el.classList.contains('quiet-dark')),
+        keymap.of([myIndentWithTab]),
+        scrollPastEnd(),
       ],
       parent: dom,
     })
