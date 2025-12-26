@@ -11,7 +11,7 @@
   let cmView
 
   let curSelection = $state(/** @type {EditorSelection | null} */(null))
-  let doc = $state(/** @type {Text | null} */(null))
+  let curDoc = $state(/** @type {Text | null} */(null))
 
   /** @type {import('svelte/attachments').Attachment} */
   function cm(dom) {
@@ -26,11 +26,11 @@
         keymap.of([myIndentWithTab]),
         scrollPastEnd(),
         EditorState.transactionExtender.of(tr => {
-          if (tr.newSelection !== curSelection) {
+          if (tr.selection || curSelection == null || !tr.newSelection.eq(curSelection)) {
             curSelection = tr.newSelection
           }
           if (tr.docChanged) {
-            doc = tr.newDoc
+            curDoc = tr.newDoc
           }
           return null
         })
@@ -39,7 +39,7 @@
     })
 
     curSelection = cmView.state.selection
-    doc = cmView.state.doc
+    curDoc = cmView.state.doc
 
     return () => {
       cmView.destroy()
@@ -48,7 +48,7 @@
   }
 
   const statusDisp = $derived.by(() => {
-    if (curSelection == null || doc == null) return ''
+    if (curSelection == null || curDoc == null) return ''
 
     if (curSelection.ranges.length > 1) return `${curSelection.ranges.length} selection regions`
 
@@ -57,7 +57,7 @@
     const sel = curSelection.main
     if (!sel.empty) {
       const ll = sel.to - sel.from
-      const nline = doc?.lineAt(sel.to).number - doc?.lineAt(sel.from).number
+      const nline = curDoc.lineAt(sel.to).number - curDoc.lineAt(sel.from).number
 
       const lines = nline > 0 ? `${nline + 1} lines, ` : ''
       const chrs = ll + ' ' + (ll > 1 ? 'characters' : 'character')
@@ -65,7 +65,7 @@
     }
 
     const anc = sel.anchor
-    const lineinfo = doc.lineAt(anc)
+    const lineinfo = curDoc.lineAt(anc)
     const colno = anc - lineinfo.from
     return `Line ${lineinfo.number}, Column ${colno + 1}`
   })
