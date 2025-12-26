@@ -8,4 +8,8 @@ export const baseTheme = EditorView.baseTheme({
   '&dark': {
     border: '1px solid #333338',
   },
+
+  '.cm-lineNumbers > .cm-gutterElement': {
+    userSelect: 'none',
+  },
 })
