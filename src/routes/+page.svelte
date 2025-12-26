@@ -26,8 +26,10 @@
         keymap.of([myIndentWithTab]),
         scrollPastEnd(),
         EditorState.transactionExtender.of(tr => {
-          if (tr.selection) {
+          if (tr.newSelection !== curSelection) {
             curSelection = tr.newSelection
+          }
+          if (tr.docChanged) {
             doc = tr.newDoc
           }
           return null
