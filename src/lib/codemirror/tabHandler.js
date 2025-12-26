@@ -1,4 +1,4 @@
-// adapted from:
+// inspired by:
 // https://discuss.codemirror.net/t/possible-bug-in-commands-inserttab-when-using-indentunits/9623/5
 
 import { indentMore, indentLess } from '@codemirror/commands'
